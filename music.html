@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #rate{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="song"></div>
+    <audio id="music" loop></audio>
+    <br>
+    <button id="play">播放</button>
+    <button id="last">上一首</button>
+    <button id="next">下一首</button>
+    <br>
+    速度
+    <input type="range" name="fast" id="fast"><div id="rate">1</div>
+
+    <script>
+        var song = document.getElementById("song");
+        var music = document.getElementById("music");
+
+        var play = document.getElementById("play");
+        var playStatus = false;
+
+        play.onclick = function(){
+            if(!playStatus){
+                music.play();
+                play.innerHTML = "暂停";
+                playStatus = true;
+                console.log(playStatus);
+            } else{
+                music.pause();
+                play.innerHTML = "播放";
+                playStatus = false;
+                console.log(playStatus);
+            }           
+        }
+
+        var songs = [
+            {
+                id: 1,
+                src: "bgm.mp3"
+            },
+            {
+                id: 2,
+                src: "邓紫棋.mp3"
+            },
+            {
+                id: 3,
+                src: "click.mp3"
+            }
+        ]
+
+        music.setAttribute("src", songs[0].src);
+
+        var next = document.getElementById("next");
+        var index = 0;
+        next.onclick = function(){
+            index += 1;
+            music.setAttribute("src", songs[index].src);
+            if(playStatus){
+                music.play();
+            }
+            song.innerHTML = music.getAttribute("src");
+            console.log(music.getAttribute("src"));
+            console.log(index);
+        }
+
+        var last = document.getElementById("last");
+        last.onclick = function(){
+            index -= 1;
+            music.setAttribute("src", songs[index].src);
+            if(playStatus){
+                music.play();
+            }
+            song.innerHTML = music.getAttribute("src");
+            console.log(music.getAttribute("src"));
+            console.log(index);
+        }
+
+        song.innerHTML = music.getAttribute("src");
+        console.log(music.getAttribute("src"));
+
+        var fast = document.getElementById("fast");
+        var rate = document.getElementById("rate");
+        fast.defaultValue = 50;
+        fast.min = 1;
+        console.log(music.playbackRate);
+        fast.onchange = function(){
+            music.playbackRate = fast.value/100 * 2;
+            rate.innerHTML = music.playbackRate;
+            console.log(fast.value);
+            console.log(music.playbackRate);
+        }
+    </script>
+</body>
+</html>
